@@ -189,13 +189,16 @@ def complete_feature(tasks):
                 for k, feature in enumerate(version['features'], 1):
                     fstatus = '✔️' if feature.get('Completed') else '❌'
                     print(f'{k}. {feature["feature"]} [{fstatus}]')
-                f_index = int(input('Enter the number of the feature to mark as completed: ')) - 1
-                if 0 <= f_index < len(version['features']):
-                    version['features'][f_index]['Completed'] = True
-                    save_task(tasks)
-                    print(f'Feature "{version["features"][f_index]["feature"]}" marked as completed.')
-                else:
-                    print("Please enter a valid feature number.")
+                while True:
+                    f_index = input('Enter the number of the feature to mark as completed(type "done" when finished): ')
+                    if f_index.isdigit() and 0 <= f_index < len(version['features']):
+                        version['features'][f_index]['Completed'] = True
+                        save_task(tasks)
+                        print(f'Feature "{version["features"][f_index]["feature"]}" marked as completed.')
+                    elif f_index.strip().lower() == "done":
+                        break
+                    else:
+                        print("Please enter a valid feature number or type 'done'.")
             else:
                 print("Please enter a valid version number.")
         else:
